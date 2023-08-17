@@ -1,20 +1,25 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import ReduxThunk from 'redux-thunk'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
+import { Provider } from 'react-redux';
+import watchlistReducer from './src/store/reducers/watchlist';
+import topmoversReducer from './src/store/reducers/topmovers';
+import newsReducer from './src/store/reducers/news';
+import AppNavigation from './src/navigation/AppNavigation';
+
+const rootReducer = combineReducers({
+  watchlist: watchlistReducer,
+  topmovers: topmoversReducer,
+  news: newsReducer
+})
+
+const store =  createStore(rootReducer, applyMiddleware(ReduxThunk))
+
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+     <Provider store={store}>
+			<AppNavigation />
+		</Provider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
